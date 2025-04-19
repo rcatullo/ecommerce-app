@@ -11,7 +11,7 @@ router.post('/signup',
 );
 
 router.post('/login',
-  body('email').isEmail(),
+  body('email').notEmpty().isEmail(),
   body('password').notEmpty(),
   login
 );

@@ -1,6 +1,6 @@
 const express = require('express');
 const { body, param } = require('express-validator');
-const { createOrder, getOrder, getOrderById } = require('../controllers/orderController');
+const { createOrder, getOrders, getOrderById } = require('../controllers/orderController');
 const auth = require('../middleware/authMiddleware');
 const error = require('../middleware/errorMiddleware');
 const router = express.Router();

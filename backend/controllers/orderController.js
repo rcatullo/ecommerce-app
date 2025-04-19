@@ -10,11 +10,14 @@ exports.createOrder = async (req, res, next) => {
         const [order] = await trx('orders')
           .insert({ user_id: userId })
           .returning('*');
-        const orderItems = cartItems.map(ci => ({
-          order_id: order.id,
-          product_id: ci.product_id,
-          quantity: ci.quantity,
-          unit_price: ci.unit_price,
+        const orderItems = await Promise.all(cartItems.map(async ci => {
+          const product = await trx('products').where({ id: ci.product_id }).first();
+          return {
+            order_id: order.id,
+            product_id: ci.product_id,
+            quantity: ci.quantity,
+            unit_price: product.price,
+          }
         }));
         await trx('order_items').insert(orderItems);
         await trx('cart_items').where({ user_id: userId }).del();
