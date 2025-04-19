@@ -1,8 +1,8 @@
 const express = require('express');
 const { body, param } = require('express-validator');
 const { createProduct, updateProduct, deleteProduct, getProduct, getAllProducts } = require('../controllers/productController');
-const authMiddleware = require('../middleware/authMiddleware');
-const errorMiddleware = require('../middleware/errorMiddleware');
+const validateRequest = require('../middleware/valMiddleware');
+const error = require('../middleware/errorMiddleware');
 const router = express.Router();
 
 const validatePrice = body('price')
@@ -16,33 +16,33 @@ const validatePrice = body('price')
         return true;
     });
 
-router.post('/createProduct',
+router.post('/',
     body('name').notEmpty(),
     validatePrice,
-    errorMiddleware,
+    validateRequest,
     createProduct
 );
 
-router.put('/updateProduct/:id',
+router.put('/:id',
     param('id').notEmpty().isInt(),
     body('name').notEmpty(),
     validatePrice,
-    errorMiddleware,
+    validateRequest,
     updateProduct
 );
 
-router.delete('/deleteProduct/:id',
+router.delete('/:id',
     param('id').notEmpty().isInt(),
     deleteProduct
 );
 
-router.get('/getProduct/:id',
+router.get('/:id', 
     param('id').notEmpty().isInt(),
     getProduct
 );
 
-router.get('/getAllProducts',
-    getAllProducts
-);
+router.get('/', getAllProducts);
+
+router.use(error);
 
 module.exports = router;

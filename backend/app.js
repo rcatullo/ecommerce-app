@@ -14,6 +14,8 @@ app.use(express.json());
 // mount API routes
 app.use('/api/auth',    authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
 
 // global error handler
 app.use((err, req, res, next) => {

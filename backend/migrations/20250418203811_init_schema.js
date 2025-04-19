@@ -35,6 +35,8 @@ exports.up = function(knex) {
 exports.down = function(knex) {
   // reverse order of creation
   return knex.schema
+    .dropTableIfExists('order_items')
+    .dropTableIfExists('orders')
     .dropTableIfExists('cart_items')
     .dropTableIfExists('products')
     .dropTableIfExists('users');

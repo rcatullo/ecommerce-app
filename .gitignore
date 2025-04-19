@@ -137,3 +137,9 @@ dist
 
 # Shell scripts
 *.sh
+
+# MacOS
+.DS_Store
+
+# VS Code
+.vscode/
