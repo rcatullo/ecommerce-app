@@ -4,12 +4,34 @@ const jwt    = require('jsonwebtoken');
 
 exports.signup = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
-    const hash = await bcrypt.hash(password, 10);
-    const [user] = await knex('users')
-      .insert({ username, email, password_hash: hash })
-      .returning(['id','username','email']);
-    res.status(201).json(user);
+    const { username, email, password, store_name, store_description } = req.body;
+    const isSeller = req.query.seller === 'true';
+    
+    const result = await knex.transaction(async trx => {
+      const [user] = await trx('users')
+        .insert({ 
+          username, 
+          email, 
+          password_hash: await bcrypt.hash(password, 10),
+          is_seller: isSeller 
+        })
+        .returning(['id', 'username', 'email', 'is_seller']);
+
+      if (isSeller) {
+        const [sellerProfile] = await trx('seller_profiles')
+          .insert({ 
+            user_id: user.id, 
+            store_name, 
+            store_description 
+          })
+          .returning('*');
+        return { ...user, seller_profile: sellerProfile };
+      }
+
+      return user;
+    });
+    
+    res.status(201).json(result);
   } catch(err) { next(err); }
 };
 

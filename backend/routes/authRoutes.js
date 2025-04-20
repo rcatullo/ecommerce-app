@@ -7,6 +7,8 @@ router.post('/signup',
   body('username').notEmpty(),
   body('email').isEmail(),
   body('password').isLength({ min: 6 }),
+  body('store_name').if((value, { req }) => req.query.seller === 'true').notEmpty(),
+  body('store_description').optional(),
   signup
 );
 
