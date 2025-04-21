@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
     fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [token, user]);
 
   return (
     <AuthContext.Provider value={{ token, user, login, logout, isStorePage }}>

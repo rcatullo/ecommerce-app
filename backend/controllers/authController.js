@@ -38,35 +38,48 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await knex('users').where({ email }).first();
-    if (!user) return res.status(401).json({ error: 'Invalid credentials' });
-    const valid = await bcrypt.compare(password, user.password_hash);
-    if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
+    const result = await knex.transaction(async trx => {
+      const user = await trx('users').where({ email }).first();
+      if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+      const valid = await bcrypt.compare(password, user.password_hash);
+      if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
 
-    const token = jwt.sign(
-      { id: user.id },
-      process.env.TOKEN_SECRET,
-      { expiresIn: '1h' }
-    );
-    res.json({ token });
+      const token = jwt.sign(
+        { id: user.id },
+        process.env.TOKEN_SECRET,
+        { expiresIn: '1h' }
+      );
+
+      const isSeller = user.is_seller;
+      if (!isSeller) {
+        return { ...user, token };
+      }
+      const sellerProfile = await trx('seller_profiles')
+        .where({ user_id: user.id })
+        .first();
+      return { ...user, token, seller_profile: sellerProfile };
+    });
+    res.json(result);
   } catch(err){ next(err); }
 };
 
 exports.me = async (req, res, next) => {
   try {
-    const user = await knex('users')
-      .where({ id: req.user.id })
-      .first();
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    const result = await knex.transaction(async trx => {
+      const user = await trx('users')
+        .where({ id: req.user.id })
+        .first();
+      if (!user) return res.status(404).json({ error: 'User not found' });
 
-    const isSeller = user.is_seller;
-    if (!isSeller) {
-      return res.json(user);
-    }
-    const sellerProfile = await knex('seller_profiles')
-      .where({ user_id: user.id })
-      .first();
-
-    res.json({ ...user, seller_profile: sellerProfile });
+      const isSeller = user.is_seller;
+      if (!isSeller) {
+        return { ...user };
+      }
+      const sellerProfile = await trx('seller_profiles')
+        .where({ user_id: user.id })
+        .first();
+      return { ...user, seller_profile: sellerProfile };
+    });
+    res.json(result);
   } catch(err){ next(err); }
 }
