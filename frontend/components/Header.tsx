@@ -1,0 +1,46 @@
+import Link from 'next/link';
+import Image from 'next/image';
+import { useAuth } from '../context/AuthContext';
+
+const Header: React.FC = () => {
+  const { user, logout } = useAuth();
+
+  return (
+    <header className="bg-white dark:bg-gray-900 shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        {/* Logo */}
+        <Link href="/" className="flex items-center">
+            <Image src="/logo.svg" alt="FarmSale Logo" width={32} height={32} />
+            <span className="ml-2 text-xl font-semibold text-[#8C1515] dark:text-red-300">FarmSale</span>
+        </Link>
+
+        {/* Navigation */}
+        <nav className="flex items-center space-x-4">
+          {user ? (
+            <>
+              <span className="text-gray-800 dark:text-gray-200">Hello, {user.username}</span>
+              <button
+                onClick={logout}
+                className="text-sm font-medium text-[#8C1515] dark:text-red-300 hover:underline"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="text-sm font-medium text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400">
+                  Login
+              </Link>
+
+              <Link href="/signup" className="text-sm font-medium bg-[#8C1515] dark:bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 dark:hover:bg-red-500 transition-colors">
+                  Sign Up
+              </Link>
+            </>
+          )}
+        </nav>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
