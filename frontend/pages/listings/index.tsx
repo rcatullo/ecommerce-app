@@ -1,13 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-}
+import { Product } from '../../types/types';
 
 const ProductDetail: React.FC = () => {
   const { query } = useRouter();

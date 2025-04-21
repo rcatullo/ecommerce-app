@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/AuthContext';
 import { useProducts } from '../../context/ProductContext';
+import { Product } from '../../types/types';
 
 const AddProductForm = ({ storeName }: { storeName: string }) => {
   const { addProduct } = useProducts();
@@ -56,13 +57,6 @@ const AddProductForm = ({ storeName }: { storeName: string }) => {
     </div>
   );
 };
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-}
 
 const ProductList = ({ products, isOwner, storeName }: { 
   products: Product[], 

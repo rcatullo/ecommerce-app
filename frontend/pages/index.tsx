@@ -2,13 +2,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import api from '../services/api';
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-}
+import { Product } from '../types/types';
 
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
