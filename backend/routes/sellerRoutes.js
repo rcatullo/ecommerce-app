@@ -6,6 +6,17 @@ const validateRequest = require('../middleware/valMiddleware');
 
 const router = express.Router();
 
+const validatePrice = body('price')
+    .notEmpty()
+    .isNumeric()
+    .isFloat({ gt: 0 })
+    .custom(value => {
+        if (value > 10000) {
+            throw new Error('Price cannot exceed 10000');
+        }
+        return true;
+    });
+
 // Public route to get seller's products
 router.get('/:storeName/products',
     param('storeName').notEmpty(),
@@ -18,9 +29,7 @@ router.use(auth);
 router.post('/:storeName/products',
     param('storeName').notEmpty(),
     body('name').notEmpty(),
-    body('price').isNumeric().isFloat({ gt: 0 }),
-    body('description').notEmpty(),
-    body('image_url').optional().isURL(),
+    validatePrice,
     validateRequest,
     createSellerProduct
 );

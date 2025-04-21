@@ -32,7 +32,7 @@ exports.createSellerProduct = async (req, res, next) => {
                 ...req.body,
                 seller_id: seller.id
             })
-            .returning(['id', 'name', 'description', 'price', 'image_url']);
+            .returning(['id', 'name', 'description', 'price']);
 
         res.status(201).json(product);
     } catch(err) { next(err); }

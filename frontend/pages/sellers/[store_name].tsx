@@ -8,8 +8,7 @@ const AddProductForm = ({ storeName }: { storeName: string }) => {
   const [newProduct, setNewProduct] = useState({
     name: '',
     description: '',
-    price: '',
-    image_url: ''
+    price: ''
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,7 +17,7 @@ const AddProductForm = ({ storeName }: { storeName: string }) => {
       ...newProduct,
       price: parseFloat(newProduct.price)
     });
-    setNewProduct({ name: '', description: '', price: '', image_url: '' });
+    setNewProduct({ name: '', description: '', price: ''});
   };
 
   return (
@@ -38,21 +37,12 @@ const AddProductForm = ({ storeName }: { storeName: string }) => {
           value={newProduct.description}
           onChange={e => setNewProduct({...newProduct, description: e.target.value})}
           className="w-full px-3 py-2 border rounded"
-          required
         />
         <input
           type="number"
           placeholder="Price"
           value={newProduct.price}
           onChange={e => setNewProduct({...newProduct, price: e.target.value})}
-          className="w-full px-3 py-2 border rounded"
-          required
-        />
-        <input
-          type="url"
-          placeholder="Image URL"
-          value={newProduct.image_url}
-          onChange={e => setNewProduct({...newProduct, image_url: e.target.value})}
           className="w-full px-3 py-2 border rounded"
           required
         />
@@ -72,7 +62,6 @@ interface Product {
   name: string;
   description: string;
   price: number;
-  image_url: string;
 }
 
 const ProductList = ({ products, isOwner, storeName }: { 
@@ -86,11 +75,6 @@ const ProductList = ({ products, isOwner, storeName }: {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {products.map(product => (
         <div key={product.id} className="bg-white rounded-lg shadow p-4">
-          <img
-            src={product.image_url}
-            alt={product.name}
-            className="w-full h-48 object-cover rounded"
-          />
           <h3 className="text-xl font-bold mt-2">{product.name}</h3>
           <p className="text-gray-600">{product.description}</p>
           <p className="text-[#8C1515] font-bold mt-2">${product.price}</p>
