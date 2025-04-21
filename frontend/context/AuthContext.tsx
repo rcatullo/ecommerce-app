@@ -43,11 +43,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const isStorePage = (storeName: string): boolean => {
-    // Compare store names case-insensitively to avoid mismatch
     return Boolean(
       user?.is_seller &&
       user?.seller_profile?.store_name &&
-      user.seller_profile.store_name.toLowerCase() === storeName.toLowerCase()
+      user.seller_profile.store_name === storeName
     );
   };
 
