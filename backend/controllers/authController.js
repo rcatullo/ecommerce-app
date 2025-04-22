@@ -19,7 +19,19 @@ exports.signup = async (req, res, next) => {
     delete user.password_hash;
     
     res.status(201).json({ user: user });
-  } catch(err) { next(err); }
+  } catch(err) {
+    // Handle unique violation error (Postgres error code 23505)
+    if (err.code === '23505') {
+      let message = 'Email or username already in use.';
+      if (err.detail && err.detail.includes('email')) {
+        message = 'Email already in use.';
+      } else if (err.detail && err.detail.includes('username')) {
+        message = 'Username already in use.';
+      }
+      return res.status(409).json({ error: message });
+    }
+    next(err);
+  }
 };
 
 exports.login = async (req, res, next) => {

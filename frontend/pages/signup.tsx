@@ -8,16 +8,24 @@ const SignupPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSeller, setIsSeller] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const signup = async (email: string, username: string, password: string) => {
+    setError(null);
     const data = { email, username, password };
-    const res = await api.post(`/auth/signup?seller=${isSeller}`, data);
-    if (res.status === 201) {
-      alert('Signup successful!');
-      router.push('/');
-    } else {
-      alert('Signup failed. Please try again.');
+    try {
+      const res = await api.post(`/auth/signup?seller=${isSeller}`, data);
+      if (res.status === 201) {
+        alert('Signup successful!');
+        router.push('/');
+      }
+    } catch (err: any) {
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(err.response.data.error);
+      } else {
+        setError('Signup failed. Please try again.');
+      }
     }
   };
 
@@ -33,6 +41,11 @@ const SignupPage: React.FC = () => {
         <div className="w-full max-w-md bg-white dark:bg-gray-700 rounded-xl shadow-lg p-8">
           <h1 className="text-3xl font-bold text-[#8C1515] dark:text-red-300 text-center mb-4">Join FarmSale</h1>
           <p className="text-center text-gray-600 dark:text-gray-300 mb-6">Connect with Stanford's graduating community</p>
+          {error && (
+            <div className="mb-4 text-red-600 dark:text-red-300 text-center font-medium">
+              {error}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">Stanford Email</label>
