@@ -1,11 +1,16 @@
-import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { createContext, useState, useContext, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
 import api from '../services/api';
 import { User } from '../components/User';
 
 interface AuthContextType {
   token: string | null;
   user: User | null;
-  login(email: string, password: string): Promise<void>;
+  signup(email: string, username: string, password: string, is_seller: boolean, 
+    setSuccess: Dispatch<SetStateAction<string | null>>, 
+    setError: Dispatch<SetStateAction<string | null>>): Promise<void>;
+  login(email: string, password: string, 
+    setSuccess: Dispatch<SetStateAction<string | null>>, 
+    setError: Dispatch<SetStateAction<string | null>>): Promise<void>;
   logout(): void;
   isPageOwner(storeName: string): boolean;
 }
@@ -18,11 +23,47 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
   const [user, setUser] = useState<User | null>(null);
 
-  const login = async (email: string, password: string) => {
-    const res = await api.post<{ token: string; user: User }>('/auth/login', { email, password });
-    localStorage.setItem('token', res.data.token);
-    setToken(res.data.token);
-    setUser(res.data.user);
+  const signup = async (email: string, username: string, password: string, is_seller: boolean, 
+                          setSuccess: Dispatch<SetStateAction<string | null>>,
+                          setError: Dispatch<SetStateAction<string | null>>) => {
+    setError(null);
+    setSuccess(null);
+    const data = { email, username, password };
+    try {
+      const res = await api.post(`/auth/signup?seller=${is_seller}`, data);
+      if (res.status === 201) {
+        setSuccess('Signup successful! Please check your Stanford email to verify your account.');
+      }
+    } catch (err: any) {
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(err.response.data.error);
+      } else {
+        setError('Signup failed. Please try again.');
+      }
+    }
+  };
+
+  const login = async (email: string, password: string, 
+                        setSuccess: Dispatch<SetStateAction<string | null>>,
+                        setError: Dispatch<SetStateAction<string | null>>) => {
+    setError(null);
+    setSuccess(null);
+    // todo
+    try {
+      const res = await api.post<{ token: string; user: User }>('/auth/login', { email, password });
+      if (res.status === 200) {
+        setSuccess('Login successful! Redirecting...');
+        localStorage.setItem('token', res.data.token);
+        setToken(res.data.token);
+        setUser(res.data.user);
+      }
+    } catch (err: any) {
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(err.response.data.error); // Show backend error (e.g., "Invalid credentials" or "Please verify your email before logging in.")
+      } else {
+        setError('Login failed. Please try again.');
+      }
+    }
   };
 
   const logout = () => {
@@ -60,7 +101,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [token, user]);
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, isPageOwner }}>
+    <AuthContext.Provider value={{ token, user, signup, login, logout, isPageOwner }}>
       {children}
     </AuthContext.Provider>
   );

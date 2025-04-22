@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import { useAuth } from '../context/AuthContext';
@@ -6,14 +6,21 @@ import { useAuth } from '../context/AuthContext';
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login(email, password);
-    router.push('/');
+    await login(email, password, setSuccess, setError);
   };
+
+  useEffect(() => {
+    if (success) {
+      router.push('/');
+    }
+  }, [success, router]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-800 transition-colors flex flex-col">
@@ -22,6 +29,16 @@ const LoginPage: React.FC = () => {
         <div className="w-full max-w-md bg-white dark:bg-gray-700 rounded-xl shadow-lg p-8">
           <h1 className="text-3xl font-bold text-[#8C1515] dark:text-red-300 text-center mb-4">Welcome Back</h1>
           <p className="text-center text-gray-600 dark:text-gray-300 mb-6">Log in with your SUNet ID</p>
+          {success && (
+            <div className="mb-4 text-green-600 dark:text-green-300 text-center font-medium">
+              {success}
+            </div>
+          )}
+          {error && (
+            <div className="mb-4 text-red-600 dark:text-red-300 text-center font-medium">
+              {error}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">Stanford Email</label>

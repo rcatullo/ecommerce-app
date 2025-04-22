@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import api from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const SignupPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -10,30 +11,11 @@ const SignupPage: React.FC = () => {
   const [isSeller, setIsSeller] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const router = useRouter();
-
-  const signup = async (email: string, username: string, password: string) => {
-    setError(null);
-    setSuccess(null);
-    const data = { email, username, password };
-    try {
-      const res = await api.post(`/auth/signup?seller=${isSeller}`, data);
-      if (res.status === 201) {
-        setSuccess('Signup successful! Please check your Stanford email to verify your account.');
-        // router.push('/'); // Don't redirect immediately
-      }
-    } catch (err: any) {
-      if (err.response && err.response.data && err.response.data.error) {
-        setError(err.response.data.error);
-      } else {
-        setError('Signup failed. Please try again.');
-      }
-    }
-  };
+  const { signup } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await signup(email, username, password);
+    await signup(email, username, password, isSeller, setSuccess, setError);
   };
 
   return (
