@@ -4,14 +4,18 @@ import Link from 'next/link';
 import Header from '../components/Header';
 import UserListings, { User } from '../components/User';
 import { useRouter } from 'next/router';
+import { useAuth } from '../context/AuthContext';
 
 const UserPage: React.FC = () => {
     const { query } = useRouter();
+    const { isPageOwner, authUser } = useAuth();
     const [user, setUser] = useState<User | null>(null);
+    const [owner, setOwner] = useState<boolean>(false);
 
     useEffect(() => {
       const fetchUser = async () => {
           try {
+              if (typeof query.username !== "string") return;
               const res = await api.get<User | null>(`/users/username/${query.username}`);
               setUser(res.data);
           } catch (err) {
@@ -19,7 +23,13 @@ const UserPage: React.FC = () => {
           }
       };
       fetchUser();
-  }, [query.username]);
+    }, [query.username]);
+
+    useEffect(() => {
+      if (typeof query.username === "string" && authUser) {
+          setOwner(isPageOwner(query.username));
+      }
+    }, [query.username, isPageOwner, authUser]);
     
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-800 transition-colors">
@@ -28,6 +38,9 @@ const UserPage: React.FC = () => {
     
             {/* Products Section */}
             {user && <UserListings {...user} />}
+
+            {/* New Listing Section */}
+            <p>{String(owner)}</p>
           </main>
         </div>
       );

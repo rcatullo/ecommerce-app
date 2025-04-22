@@ -4,7 +4,7 @@ import { User } from '../components/User';
 
 interface AuthContextType {
   token: string | null;
-  user: User | null;
+  authUser: User | null;
   signup(email: string, username: string, password: string, is_seller: boolean, 
     setSuccess: Dispatch<SetStateAction<string | null>>, 
     setError: Dispatch<SetStateAction<string | null>>): Promise<void>;
@@ -12,7 +12,7 @@ interface AuthContextType {
     setSuccess: Dispatch<SetStateAction<string | null>>, 
     setError: Dispatch<SetStateAction<string | null>>): Promise<void>;
   logout(): void;
-  isPageOwner(storeName: string): boolean;
+  isPageOwner(username: string): boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(
     typeof window !== 'undefined' ? localStorage.getItem('token') : null
   );
-  const [user, setUser] = useState<User | null>(null);
+  const [authUser, setUser] = useState<User | null>(null);
 
   const signup = async (email: string, username: string, password: string, is_seller: boolean, 
                           setSuccess: Dispatch<SetStateAction<string | null>>,
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (err: any) {
       if (err.response && err.response.data && err.response.data.error) {
-        setError(err.response.data.error); // Show backend error (e.g., "Invalid credentials" or "Please verify your email before logging in.")
+        setError(err.response.data.error);
       } else {
         setError('Login failed. Please try again.');
       }
@@ -73,16 +73,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Check if user owns the page [username].tsx
   const isPageOwner = (username: string): boolean => {
-    return Boolean(
-      user?.is_seller &&
-      user?.username === username
-    );
+    return !!authUser && authUser.username === username;
   };
 
   // Restore user from API if token exists but user is null
   useEffect(() => {
     const fetchUser = async () => {
-      if (token && !user) {
+      if (token && !authUser) {
         try {
           const res = await api.get<{ user: User }>('/auth/me', {
             headers: { Authorization: `Bearer ${token}` }
@@ -97,10 +94,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
     fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, user]);
+  }, [token, authUser]);
 
   return (
-    <AuthContext.Provider value={{ token, user, signup, login, logout, isPageOwner }}>
+    <AuthContext.Provider value={{ token, authUser, signup, login, logout, isPageOwner }}>
       {children}
     </AuthContext.Provider>
   );

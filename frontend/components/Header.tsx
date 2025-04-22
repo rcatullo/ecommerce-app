@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useAuth } from '../context/AuthContext';
 
 const Header: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { authUser, logout } = useAuth();
 
   return (
     <header className="bg-brand shadow-md">
@@ -16,9 +16,9 @@ const Header: React.FC = () => {
 
         {/* Navigation */}
         <nav className="flex items-center space-x-4">
-          {user ? (
+          {authUser ? (
             <>
-              <span className="text-gray-800 dark:text-gray-200">Hello, {user.username}</span>
+              <span className="text-gray-800 dark:text-gray-200">Hello, {authUser.username}</span>
               <button
                 onClick={logout}
                 className="text-sm font-medium text-brand dark:text-brand-light hover:underline"
