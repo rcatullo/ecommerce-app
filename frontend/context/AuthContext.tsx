@@ -6,11 +6,6 @@ interface User {
   username: string;
   email: string;
   is_seller: boolean;
-  seller_profile?: {
-    id: number;
-    store_name: string;
-    store_description: string;
-  };
 }
 
 interface AuthContextType {
@@ -18,7 +13,7 @@ interface AuthContextType {
   user: User | null;
   login(email: string, password: string): Promise<void>;
   logout(): void;
-  isStorePage(storeName: string): boolean;
+  isPageOwner(storeName: string): boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -42,11 +37,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   };
 
-  const isStorePage = (storeName: string): boolean => {
+  const isPageOwner = (username: string): boolean => {
     return Boolean(
       user?.is_seller &&
-      user?.seller_profile?.store_name &&
-      user.seller_profile.store_name === storeName
+      user?.username === username
     );
   };
 
@@ -71,7 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [token, user]);
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, isStorePage }}>
+    <AuthContext.Provider value={{ token, user, login, logout, isPageOwner }}>
       {children}
     </AuthContext.Provider>
   );
