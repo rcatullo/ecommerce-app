@@ -4,9 +4,7 @@ const cors    = require('cors');
 
 const authRoutes    = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
-const cartRoutes = require('./routes/cartRoutes');
-const orderRoutes = require('./routes/orderRoutes');
-const sellerRoutes = require('./routes/sellerRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 app.use(cors());
@@ -15,9 +13,7 @@ app.use(express.json());
 // mount API routes
 app.use('/api/auth',    authRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/cart', cartRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/sellers', sellerRoutes);
+app.use('/api/users', userRoutes);
 
 // global error handler
 app.use((err, req, res, next) => {

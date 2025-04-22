@@ -6,12 +6,12 @@ const Header: React.FC = () => {
   const { user, logout } = useAuth();
 
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-md">
+    <header className="bg-brand shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-            <Image src="/logo.svg" alt="FarmSale Logo" width={32} height={32} />
-            <span className="ml-2 text-xl font-semibold text-[#8C1515] dark:text-red-300">FarmSale</span>
+            <Image src="/logo.svg" alt="FarmSale Logo" width={48} height={48} className=""/>
+            <span className="ml-4 text-xl font-semibold text-brand dark:text-brand-light">FarmSale</span>
         </Link>
 
         {/* Navigation */}
@@ -21,7 +21,7 @@ const Header: React.FC = () => {
               <span className="text-gray-800 dark:text-gray-200">Hello, {user.username}</span>
               <button
                 onClick={logout}
-                className="text-sm font-medium text-[#8C1515] dark:text-red-300 hover:underline"
+                className="text-sm font-medium text-brand dark:text-brand-light hover:underline"
               >
                 Logout
               </button>
@@ -32,7 +32,7 @@ const Header: React.FC = () => {
                   Login
               </Link>
 
-              <Link href="/signup" className="text-sm font-medium bg-[#8C1515] dark:bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 dark:hover:bg-red-500 transition-colors">
+              <Link href="/signup" className="text-sm font-medium bg-brand text-white px-3 py-1 rounded-md hover:bg-brand-dark transition-colors">
                   Sign Up
               </Link>
             </>

@@ -1,41 +1,18 @@
-module.exports = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        blue: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
-        },
-      },
-      typography: {
-        DEFAULT: {
-          css: {
-            color: '#334155',
-            a: {
-              color: '#0284c7',
-              '&:hover': {
-                color: '#0369a1',
-              },
-            },
-          },
-        },
+/** @type {import('tailwindcss').Config} */
+export const content = [
+  "./pages/**/*.{js,ts,jsx,tsx}",
+  "./components/**/*.{js,ts,jsx,tsx}",
+  "./app/**/*.{js,ts,jsx,tsx}",
+];
+export const theme = {
+  extend: {
+    colors: {
+      brand: {
+        light: "#3fbaeb",
+        DEFAULT: "#0fa9e6",
+        dark: "#0c87b8",
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/line-clamp'),
-  ],
-}
+};
+export const plugins = [];

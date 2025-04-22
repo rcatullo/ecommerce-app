@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
-import { Product } from '../../types/types';
+import { Product } from '../../components/Product';
 
 const ProductDetail: React.FC = () => {
   const { query } = useRouter();

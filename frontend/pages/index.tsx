@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import api from '../services/api';
 import Header from '../components/Header';
-import { Product } from '../types/types';
+import ProductCard, { Product } from '../components/Product';
 
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -27,14 +27,7 @@ const HomePage: React.FC = () => {
         <section>
           <h2 className="text-3xl font-bold text-[#8C1515] mb-8 text-center">Recent Listings</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map(p => (
-              <Link key={p.id} href={`/listings/${p.id}`} className="block group bg-white dark:bg-gray-700 rounded-xl p-6 transition-shadow hover:shadow-lg">
-                  <div className="aspect-w-1 aspect-h-1 bg-gray-100 dark:bg-gray-600 rounded-lg mb-4"></div>
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 group-hover:text-[#8C1515]">{p.name}</h3>
-                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{p.description}</p>
-                  <p className="mt-2 text-lg font-semibold text-[#8C1515] dark:text-red-300">${Number(p.price).toFixed(2)}</p>
-              </Link>
-            ))}
+            {products.map(p => (<ProductCard key={p.id} {...p} />))}
           </div>
         </section>
       </main>

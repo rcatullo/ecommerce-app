@@ -8,14 +8,10 @@ const SignupPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSeller, setIsSeller] = useState(false);
-  const [storeName, setStoreName] = useState('');
-  const [storeDescription, setStoreDescription] = useState('');
   const router = useRouter();
 
   const signup = async (email: string, username: string, password: string) => {
-    const data = isSeller 
-      ? { email, username, password, store_name: storeName, store_description: storeDescription }
-      : { email, username, password };
+    const data = { email, username, password };
     const res = await api.post(`/auth/signup?seller=${isSeller}`, data);
     if (res.status === 201) {
       alert('Signup successful!');
@@ -51,11 +47,11 @@ const SignupPage: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-200">Full Name</label>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-200">Username</label>
               <input
                 id="username"
                 type="text"
-                placeholder="Your name"
+                placeholder="Username"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
                 required
@@ -86,31 +82,6 @@ const SignupPage: React.FC = () => {
                 I want to sell items
               </label>
             </div>
-            {isSeller && (
-              <>
-                <div>
-                  <label htmlFor="storeName" className="block text-sm font-medium text-gray-700 dark:text-gray-200">Store Name</label>
-                  <input
-                    id="storeName"
-                    type="text"
-                    value={storeName}
-                    onChange={e => setStoreName(e.target.value)}
-                    required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[#8C1515] focus:border-[#8C1515]"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="storeDescription" className="block text-sm font-medium text-gray-700 dark:text-gray-200">Store Description</label>
-                  <textarea
-                    id="storeDescription"
-                    value={storeDescription}
-                    onChange={e => setStoreDescription(e.target.value)}
-                    required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[#8C1515] focus:border-[#8C1515]"
-                  />
-                </div>
-              </>
-            )}
             <div className="text-sm text-gray-600 dark:text-gray-300">
               By signing up, you confirm that you are a graduating Stanford senior.
             </div>

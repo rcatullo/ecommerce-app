@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
-import { Product } from '../../types/types';
+import { Product } from '../../components/Product';
 
 const ListingsPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
