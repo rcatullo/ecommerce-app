@@ -1,12 +1,6 @@
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import api from '../services/api';
-
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  is_seller: boolean;
-}
+import { User } from '../components/User';
 
 interface AuthContextType {
   token: string | null;
@@ -37,6 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   };
 
+  // Check if user owns the page [username].tsx
   const isPageOwner = (username: string): boolean => {
     return Boolean(
       user?.is_seller &&

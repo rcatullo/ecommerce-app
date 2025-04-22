@@ -7,10 +7,10 @@ import { useRouter } from 'next/router';
 
 const UserPage: React.FC = () => {
     const { query } = useRouter();
-    const [user, setUser] = useState<User>();
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        api.get<User>(`/users/username/${query.username}`)
+        api.get<User | null>(`/users/username/${query.username}`)
            .then(res => setUser(res.data))
            .catch(console.error);
     }, []);

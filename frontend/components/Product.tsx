@@ -12,10 +12,10 @@ export interface Product {
 }
 
 const ProductCard: React.FC<Product> = (p) => {
-    const [user, setUser] = useState<User>();
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        api.get<User>(`/products/users/${p.id}`)
+        api.get<User | null>(`/products/users/${p.id}`)
            .then(res => setUser(res.data))
            .catch(console.error);
     }, []);

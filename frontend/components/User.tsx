@@ -9,6 +9,7 @@ export interface User {
     username: string;
     email: string;
     is_seller: boolean;
+    is_verified: boolean;
 }
 
 const UserListings: React.FC<User> = (user) => {
