@@ -10,10 +10,16 @@ const UserPage: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        api.get<User | null>(`/users/username/${query.username}`)
-           .then(res => setUser(res.data))
-           .catch(console.error);
-    }, []);
+      const fetchUser = async () => {
+          try {
+              const res = await api.get<User | null>(`/users/username/${query.username}`);
+              setUser(res.data);
+          } catch (err) {
+              console.error(err);
+          }
+      };
+      fetchUser();
+  }, [query.username]);
     
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-800 transition-colors">

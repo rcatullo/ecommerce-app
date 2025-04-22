@@ -48,7 +48,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                         setError: Dispatch<SetStateAction<string | null>>) => {
     setError(null);
     setSuccess(null);
-    // todo
     try {
       const res = await api.post<{ token: string; user: User }>('/auth/login', { email, password });
       if (res.status === 200) {
