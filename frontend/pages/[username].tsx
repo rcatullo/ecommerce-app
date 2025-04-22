@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import UserListings, { User } from '../components/User';
 import { useRouter } from 'next/router';
 import { useAuth } from '../context/AuthContext';
+import NewListing from '../components/NewListing';
 
 const UserPage: React.FC = () => {
     const { query } = useRouter();
@@ -40,7 +41,7 @@ const UserPage: React.FC = () => {
             {user && <UserListings {...user} />}
 
             {/* New Listing Section */}
-            <p>{String(owner)}</p>
+            {user && owner && <NewListing {...user}></NewListing>}
           </main>
         </div>
       );
