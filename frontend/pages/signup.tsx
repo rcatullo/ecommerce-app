@@ -9,16 +9,18 @@ const SignupPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isSeller, setIsSeller] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const router = useRouter();
 
   const signup = async (email: string, username: string, password: string) => {
     setError(null);
+    setSuccess(null);
     const data = { email, username, password };
     try {
       const res = await api.post(`/auth/signup?seller=${isSeller}`, data);
       if (res.status === 201) {
-        alert('Signup successful!');
-        router.push('/');
+        setSuccess('Signup successful! Please check your Stanford email to verify your account.');
+        // router.push('/'); // Don't redirect immediately
       }
     } catch (err: any) {
       if (err.response && err.response.data && err.response.data.error) {
@@ -41,6 +43,11 @@ const SignupPage: React.FC = () => {
         <div className="w-full max-w-md bg-white dark:bg-gray-700 rounded-xl shadow-lg p-8">
           <h1 className="text-3xl font-bold text-[#8C1515] dark:text-red-300 text-center mb-4">Join FarmSale</h1>
           <p className="text-center text-gray-600 dark:text-gray-300 mb-6">Connect with Stanford's graduating community</p>
+          {success && (
+            <div className="mb-4 text-green-600 dark:text-green-300 text-center font-medium">
+              {success}
+            </div>
+          )}
           {error && (
             <div className="mb-4 text-red-600 dark:text-red-300 text-center font-medium">
               {error}

@@ -10,6 +10,8 @@ exports.up = function(knex) {
       tbl.string('password_hash').notNullable();
       tbl.string('email', 256).notNullable().unique();
       tbl.boolean('is_seller').defaultTo(false);
+      tbl.boolean('email_verified').defaultTo(false);
+      tbl.string('email_verification_token', 128);
     })
     .createTable('products', tbl => {
       tbl.increments('id');
