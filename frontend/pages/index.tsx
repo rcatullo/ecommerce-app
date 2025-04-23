@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import api from '@/services/api';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import ProductCard, { Product } from '@/components/Product';
 import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 
@@ -36,16 +37,30 @@ const HomePage: React.FC = () => {
     </div>
     <main>
       <div className="bg-linear-to-b from-white from-50% to-gray-100 py-32">
-    <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white items-center justify-center relative overflow-hidden">
+    <div className="h-[40rem] rounded-md flex flex-col antialiased items-center justify-center relative overflow-hidden">
+      <div className="pb-24 px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:max-w-7xl">
+          <h2 className="max-w-3xl text-4xl font-medium tracking-tighter text-pretty text-gray-950 data-dark:text-white sm:text-6xl">Hundreds of listings by graduating seniors.</h2>
+          <div className="mt-16">
       <InfiniteMovingCards
         items={products}
         direction="right"
-        speed="normal"
+        speed="slow"
         pauseOnHover={false}
       />
+      <InfiniteMovingCards
+        items={products}
+        direction="left"
+        speed="slow"
+        pauseOnHover={false}
+      />
+      </div>
+      </div>
+      </div>
     </div>
     </div>
     </main>
+    <Footer />
     </>
     
   );

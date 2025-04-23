@@ -18,7 +18,6 @@ const Header: React.FC = () => {
         </div>
         
         </div>
-        {/* Navigation */}
         <nav className="flex items-center space-x-4">
           {authUser ? (
             <>
