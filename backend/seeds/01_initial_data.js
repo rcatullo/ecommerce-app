@@ -15,6 +15,10 @@ exports.seed = async function(knex) {
   // insert some products
   await knex('products').insert([
     { name: 'T‑shirt', description: 'Comfortable cotton tee', price: 19.99, user_id: 1 },
-    { name: 'Mug',    description: 'Ceramic coffee mug',      price: 9.99, user_id: 2 }
+    { name: 'Mug',    description: 'Ceramic coffee mug',      price: 9.99, user_id: 2 },
+    { name: 'T‑shirt1', description: 'Comfortable cotton tee', price: 19.99, user_id: 1 },
+    { name: 'Mug1',    description: 'Ceramic coffee mug',      price: 9.99, user_id: 2 },
+    { name: 'T‑shirt2', description: 'Comfortable cotton tee', price: 19.99, user_id: 1 },
+    { name: 'Mug2',    description: 'Ceramic coffee mug',      price: 9.99, user_id: 2 }
   ]);
 };

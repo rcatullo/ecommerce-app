@@ -1,8 +1,11 @@
+"use client";
+
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import api from '../services/api';
-import Header from '../components/Header';
-import ProductCard, { Product } from '../components/Product';
+import api from '@/services/api';
+import Header from '@/components/Header';
+import ProductCard, { Product } from '@/components/Product';
+import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -15,7 +18,7 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-    <div className="relative">
+    <div className="relative bg-white">
       <div className="absolute inset-2 bottom-0 rounded-4xl ring-1 ring-black/5 ring-inset bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] sm:bg-linear-145"></div>
       <div className='relative px-6 lg:px-8'>
         <div className='mx-auto max-w-2xl lg:max-w-7xl'>
@@ -31,13 +34,18 @@ const HomePage: React.FC = () => {
       </div>
       </div>
     </div>
-    {/* Products Section 
-    <section>
-          <h2 className="text-3xl font-bold text-[#8C1515] mb-8 text-center">Recent Listings</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map(p => (<ProductCard key={p.id} {...p} />))}
-          </div>
-        </section>*/}
+    <main>
+      <div className="bg-linear-to-b from-white from-50% to-gray-100 py-32">
+    <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white items-center justify-center relative overflow-hidden">
+      <InfiniteMovingCards
+        items={products}
+        direction="right"
+        speed="normal"
+        pauseOnHover={false}
+      />
+    </div>
+    </div>
+    </main>
     </>
     
   );
