@@ -24,7 +24,7 @@ const ProductCard: React.FC<Product> = (p) => {
         <div>
         {user && (
         <>
-            <Link key={p.id} href={`/${user.username}`} className="block group bg-white dark:bg-gray-700 rounded-xl p-6 transition-shadow hover:shadow-lg">
+            <Link key={p.id} href={`/${user.username}`} className="block group bg-white dark:bg-gray-700 rounded-xl p-6 transition-shadow hover:shadow-lg min-h-full">
                 <div className="aspect-w-1 aspect-h-1 bg-gray-100 dark:bg-gray-600 rounded-lg mb-4"></div>
                 <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 group-hover:text-[#8C1515]">{p.name}</h3>
                 <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{p.description}</p>

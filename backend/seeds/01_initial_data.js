@@ -8,8 +8,8 @@ exports.seed = async function(knex) {
   
   // insert a demo user
   await knex('users').insert([
-    { username: 'alice', password_hash: 'hashed_pw_here', email: 'alice@example.com', is_seller: true },
-    { username: 'bob', password_hash: 'hashed_pw_here', email: 'bob@example.com', is_seller: true }
+    { username: 'alice', password_hash: '$2b$10$yriH/NOu8xo868enyA5VW.Au25yr9fqBEzdq9pfOCX9ySLtRKijtW', email: 'alice@example.com', is_seller: true, email_verified: true },
+    { username: 'bob', password_hash: '$2b$10$yriH/NOu8xo868enyA5VW.Au25yr9fqBEzdq9pfOCX9ySLtRKijtW', email: 'bob@example.com', is_seller: true, email_verified: true }
   ]);
 
   // insert some products

@@ -14,24 +14,32 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-800 transition-colors">
+    <>
+    <div className="relative">
+      <div className="absolute inset-2 bottom-0 rounded-4xl ring-1 ring-black/5 ring-inset bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] sm:bg-linear-145"></div>
+      <div className='relative px-6 lg:px-8'>
+        <div className='mx-auto max-w-2xl lg:max-w-7xl'>
       <Header />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-r from-[#8C1515] to-[#B83A3A] text-white rounded-xl p-10 mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">Welcome to FarmSale</h1>
-          <p className="text-xl md:text-2xl mb-6 text-center">Stanford's Marketplace for Graduating Seniors</p>
-        </section>
-
-        {/* Products Section */}
-        <section>
+      <main className="">
+        <div className="pt-16 pb-24 sm:pt-24 sm:pb-32 md:pt-32 md:pb-48">
+          <h1 className='font-display text-6xl/[0.9] font-medium tracking-tight text-balance text-gray-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]'>
+            <span className="font-unifraktur">Thrift</span> at Stanford
+          </h1>
+          <p className="mt-8 max-w-lg text-xl/7 font-medium text-gray-950/75 sm:text-2xl/8">Join the campus-wide garage sale. </p>
+        </div>
+      </main>
+      </div>
+      </div>
+    </div>
+    {/* Products Section 
+    <section>
           <h2 className="text-3xl font-bold text-[#8C1515] mb-8 text-center">Recent Listings</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map(p => (<ProductCard key={p.id} {...p} />))}
           </div>
-        </section>
-      </main>
-    </div>
+        </section>*/}
+    </>
+    
   );
 };
 

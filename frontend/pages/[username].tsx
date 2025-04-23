@@ -31,17 +31,20 @@ const UserPage: React.FC = () => {
           setOwner(isPageOwner(query.username));
       }
     }, [query.username, isPageOwner, authUser]);
+
+    if (!user) return null;
     
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-800 transition-colors">
           <Header />
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    
-            {/* Products Section */}
-            {user && <UserListings {...user} />}
-
-            {/* New Listing Section */}
-            {user && owner && <NewListing {...user}></NewListing>}
+            <section>
+              <h2 className="text-3xl font-bold text-[#8C1515] mb-8 text-center">Listings by {user.username}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {user && <UserListings {...user} />}
+                {user && owner && <NewListing {...user}></NewListing>}
+              </div>
+            </section>
           </main>
         </div>
       );

@@ -21,14 +21,7 @@ const UserListings: React.FC<User> = (user) => {
            .catch(console.error);
       }, []);
     
-      return(
-        <section>
-        <h2 className="text-3xl font-bold text-[#8C1515] mb-8 text-center">Listings by {user.username}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products && products.map(p => (<ProductCard key={p.id} {...p} />))}
-        </div>
-        </section>
-      );
+      return(<>{products && products.map(p => (<ProductCard key={p.id} {...p} />))}</>);
 };
 
 export default UserListings;
