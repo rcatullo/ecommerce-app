@@ -31,24 +31,21 @@ router.get('/username/:username',
 
 router.use(auth);
 
-router.post('/:id',
-    param('id').notEmpty().isInt(),
+router.post('/',
     body('name').notEmpty(),
     validatePrice,
     validate,
     createSellerProduct
 );
 
-router.put('/:id/:productId',
-    param('id').notEmpty().isInt(),
+router.put('/:productId',
     param('productId').notEmpty().isInt(),
     validatePrice,
     validate,
     updateSellerProduct
 )
 
-router.delete('/:id/:productId',
-    param('id').notEmpty().isInt(),
+router.delete('/:productId',
     param('productId').notEmpty().isInt(),
     validate,
     deleteSellerProduct

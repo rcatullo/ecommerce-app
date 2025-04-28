@@ -23,14 +23,12 @@ exports.getSellerByUsername = async (req, res, next) => {
 
 exports.createSellerProduct = async (req, res, next) => {
     try {
-        const { id } = req.params;
         const result = await knex.transaction(async trx => {
-            const user = await trx('users').where('id', id).first();
+            const user = await trx('users').where('id', req.user.id).first();
 
-            if (!user.is_seller) return null;
-            if (id !== req.user.id) return null;
+            if (!user.is_seller) return res.status(401);
 
-            await trx('products').insert({...req.body, user_id: id});
+            await trx('products').insert({...req.body, user_id: req.user.id});
             
             return { success: true };
         });
@@ -41,12 +39,11 @@ exports.createSellerProduct = async (req, res, next) => {
 
 exports.updateSellerProduct = async (req, res, next) => {
     try {
-        const { id, productId } = req.params;
+        const { productId } = req.params;
         const result = await knex.transaction(async trx => {
-            const user = await trx('users').where('id', id).first();
+            const user = await trx('users').where('id', req.user.id).first();
 
-            if (!user.is_seller) return null;
-            if (id !== req.user.id) return null;
+            if (!user.is_seller) return res.status(401);
 
             await trx('products').which('id', productId).update(req.body);
 
@@ -59,13 +56,12 @@ exports.updateSellerProduct = async (req, res, next) => {
 
 exports.deleteSellerProduct = async (req, res, next) => {
     try {
-        const { id, productId } = req.params;
+        const { productId } = req.params;
 
         const result = await knex.transaction(async trx => {
-            const user = await trx('users').where('id', id).first();
+            const user = await trx('users').where('id', req.user.id).first();
 
-            if (!user.is_seller) return null;
-            if (id !== req.user.id) return null;
+            if (!user.is_seller) return res.status(401);
 
             await trx('products').which('id', productId).del();
 

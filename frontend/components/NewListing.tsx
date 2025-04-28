@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { User } from './User';
+import api from '@/services/api';
 
 const NewListing: React.FC<User> = (user) => {
     const [expanded, setExpanded] = useState(false);
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
+    const [error, setError] = useState<string | null>(null);
 
     // Disable scrolling when form is open
     useEffect(() => {
@@ -22,8 +24,22 @@ const NewListing: React.FC<User> = (user) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Submit logic here
-        setExpanded(false);
+        setError(null);
+        try {
+            const numericPrice = Number(price);
+            const data = { name, price: numericPrice, description };
+            await api.post(`/users/`, data);
+            setExpanded(false);
+            setName('');
+            setPrice('');
+            setDescription('');
+        } catch (err: any) {
+            setError(
+                err?.response?.data?.message ||
+                err?.message ||
+                'Failed to create listing. Please try again.'
+            );
+        }
     };
 
     return (
@@ -68,6 +84,11 @@ const NewListing: React.FC<User> = (user) => {
             </h1>
             <p className="text-center text-gray-600 mb-6">List an item for sale.</p>
             <form onSubmit={handleSubmit}>
+              {error && (
+                <div className="mb-4 text-red-600 bg-red-100 rounded p-2 text-center">
+                  {error}
+                </div>
+              )}
               <div className="mb-4">
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Name</label>
                   <input
