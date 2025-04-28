@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Header from '../components/Header';
-import { useAuth } from '../context/AuthContext';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { useAuth } from '@/context/AuthContext';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -23,12 +24,18 @@ const LoginPage: React.FC = () => {
   }, [success, router]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-800 transition-colors flex flex-col">
+    <>
+    <div className="relative bg-white">
+    <div className="absolute inset-2 bottom-0 rounded-4xl ring-1 ring-black/5 ring-inset bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] sm:bg-linear-145"></div>
+      <div className='relative px-6 lg:px-8'>
+        <div className='mx-auto max-w-2xl lg:max-w-7xl'>
       <Header />
-      <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md bg-white dark:bg-gray-700 rounded-xl shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-[#8C1515] dark:text-red-300 text-center mb-4">Welcome Back</h1>
-          <p className="text-center text-gray-600 dark:text-gray-300 mb-6">Log in with your SUNet ID</p>
+      <main>
+      <div className="py-16">
+        <div className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+          <h1 className="text-3xl font-bold text-black text-center mb-4">Welcome Back</h1>
+          <p className="text-center text-gray-600 mb-6">Log in with your SUNet ID</p>
           {success && (
             <div className="mb-4 text-green-600 dark:text-green-300 text-center font-medium">
               {success}
@@ -64,23 +71,28 @@ const LoginPage: React.FC = () => {
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[#8C1515] focus:border-[#8C1515]"
               />
             </div>
-            <button
-              type="submit"
-              className="w-full bg-[#8C1515] dark:bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 dark:hover:bg-red-500 transition-colors"
-            >
-              Log In with SUNet ID
-            </button>
+            <div className="mt-6 text-center">
+                    <button type="submit" className="transition-transform ease-in-out duration-500 hover:scale-105 w-full sm:w-auto inline-flex items-center justify-center px-4 py-[calc(--spacing(2)-1px)] rounded-full border border-transparent bg-gray-950 shadow-md text-base font-medium whitespace-nowrap text-white data-disabled:bg-gray-950 data-disabled:opacity-40 data-hover:bg-gray-800">
+                        Log In with SUNet ID
+                    </button>
+                </div>
           </form>
+          { /* Need to implement password recovery */}
           <div className="mt-6 text-center">
-            <a href="/forgot-password" className="text-sm text-[#8C1515] dark:text-red-300 hover:underline">Forgot your password?</a>
-            <p className="text-gray-600 dark:text-gray-300 mt-4">
-              Not a Stanford senior?{' '}
-              <a href="/signup" className="text-[#8C1515] dark:text-red-300 font-medium hover:underline">Sign up here</a>
+            <p className="text-gray-600 mt-4">
+              Don't have an account?{' '}
+              <a href="/signup" className="font-medium hover:underline">Sign up here</a>
             </p>
           </div>
+          </div>
         </div>
-      </main>
+      </div>
+    </main>
+      </div>
+      </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 
