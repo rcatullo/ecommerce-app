@@ -29,7 +29,7 @@ const SignupPage: React.FC = () => {
         <div className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
           <h1 className="text-3xl font-bold text-black text-center mb-4">
-            <span className="font-unifraktur">treesail signup</span>
+            <span className="font-unifraktur">signup</span>
           </h1>
           <p className="text-center text-gray-600 dark:text-gray-300 mb-6">Connect with Stanford's graduating community</p>
           {success && (

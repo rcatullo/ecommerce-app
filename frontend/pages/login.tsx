@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
         <div className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
           <h1 className="text-3xl font-bold text-black text-center mb-4">
-          <span className="font-unifraktur">treesail login</span>
+          <span className="font-unifraktur">login</span>
           </h1>
           <p className="text-center text-gray-600 mb-6">Log in with your SUNet ID</p>
           {success && (
@@ -73,7 +73,7 @@ const LoginPage: React.FC = () => {
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[#8C1515] focus:border-[#8C1515]"
               />
             </div>
-            <div className="mt-6 text-center">
+            <div className="mt-12 text-center">
                     <button type="submit" className="transition-transform ease-in-out duration-500 hover:scale-105 w-full sm:w-auto inline-flex items-center justify-center px-4 py-[calc(--spacing(2)-1px)] rounded-full border border-transparent bg-gray-950 shadow-md text-base font-medium whitespace-nowrap text-white data-disabled:bg-gray-950 data-disabled:opacity-40 data-hover:bg-gray-800">
                         Log In with SUNet ID
                     </button>
