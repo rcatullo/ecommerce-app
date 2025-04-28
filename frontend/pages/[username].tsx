@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import Link from 'next/link';
 import Header from '../components/Header';
+import Footer from '@/components/Footer';
 import UserListings, { User } from '../components/User';
 import { useRouter } from 'next/router';
 import { useAuth } from '../context/AuthContext';
@@ -33,20 +33,28 @@ const UserPage: React.FC = () => {
     }, [query.username, isPageOwner, authUser]);
 
     if (!user) return null;
-    
+
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-800 transition-colors">
+        <>
+        <div className="relative bg-white">
+        <div className="absolute inset-2 bottom-0 rounded-4xl ring-1 ring-black/5 ring-inset bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] sm:bg-linear-145"></div>
+          <div className='relative px-6 lg:px-8'>
+            <div className='mx-auto max-w-2xl lg:max-w-7xl'>
           <Header />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <section>
-              <h2 className="text-3xl font-bold text-[#8C1515] mb-8 text-center">Listings by {user.username}</h2>
+          <main>
+            <div className="py-16">
+              <h2 className="text-3xl font-bold mb-8 text-center"><span className="font-unifraktur">{user.username}</span></h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {user && <UserListings {...user} />}
                 {user && owner && <NewListing {...user}></NewListing>}
               </div>
-            </section>
+            </div>
           </main>
+          </div>
+          </div>
         </div>
+        <Footer/>
+        </>
       );
 }
 
