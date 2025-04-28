@@ -22,6 +22,12 @@ const Header: React.FC = () => {
           {authUser ? (
             <>
               <span className="text-gray-800 dark:text-gray-200">Hello, {authUser.username}</span>
+              <Link
+                href={`/${authUser.username}`}
+                className="text-sm font-medium text-brand dark:text-brand-light hover:underline"
+              >
+                My Page
+              </Link>
               <button
                 onClick={logout}
                 className="text-sm font-medium text-brand dark:text-brand-light hover:underline"
