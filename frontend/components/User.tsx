@@ -1,8 +1,4 @@
-import { useEffect, useState } from 'react';
-import api from '../services/api';
-import Link from 'next/link';
 import ProductCard, { Product } from './Product';
-import Header from './Header';
 
 export interface User {
     id: number;

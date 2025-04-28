@@ -1,13 +1,27 @@
+/**
+ * pages/index.tsx
+ *
+ * HomePage component for the Treesail/Thrift at Stanford application.
+ * Fetches and displays a list of products from the API, renders the main hero section,
+ * and shows animated, infinitely-scrolling product cards.
+ * Includes Header and Footer components.
+ */
+
 "use client";
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import api from '@/services/api';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ProductCard, { Product } from '@/components/Product';
+import { Product } from '@/components/Product';
 import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 
+/**
+ * HomePage Component
+ *
+ * Fetches product listings and displays them in animated scrollers.
+ * Renders the main landing/hero section and includes site header and footer.
+ */
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
 

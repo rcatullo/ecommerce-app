@@ -1,10 +1,24 @@
+/**
+ * Footer.tsx
+ *
+ * This component renders the footer section of the application, including branding,
+ * a call-to-action for new users, and contact information.
+ * It uses Next.js Link and Image components and consumes authentication context.
+ */
+
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from '../context/AuthContext';
 
+/**
+ * Footer Component
+ *
+ * Displays a visually styled footer with:
+ * - A call-to-action for graduating students to list items.
+ * - Branding and logo.
+ * - Copyright.
+ * - Contact information.
+ */
 const Footer: React.FC = () => {
-  const { authUser, logout } = useAuth();
-
   return (
     <footer>
       <div className="relative bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] sm:bg-linear-145">
@@ -22,8 +36,8 @@ const Footer: React.FC = () => {
                 </hgroup>
                 <p className="mx-auto mt-6 max-w-xs text-sm/6 text-gray-500">Make an account to start listing what you can't take with you.</p>
                 <div className="mt-6">
-                    <a href="/signup" className="transition-transform ease-in-out duration-500 hover:scale-105 w-full sm:w-auto inline-flex items-center justify-center px-4 py-[calc(--spacing(2)-1px)] rounded-full border border-transparent bg-gray-950 shadow-md text-base font-medium whitespace-nowrap text-white data-disabled:bg-gray-950 data-disabled:opacity-40 data-hover:bg-gray-800">
-                        Get started</a>
+                    <Link href="/signup" className="transition-transform ease-in-out duration-500 hover:scale-105 w-full sm:w-auto inline-flex items-center justify-center px-4 py-[calc(--spacing(2)-1px)] rounded-full border border-transparent bg-gray-950 shadow-md text-base font-medium whitespace-nowrap text-white data-disabled:bg-gray-950 data-disabled:opacity-40 data-hover:bg-gray-800">
+                        Get started</Link>
                 </div>
                 </div>
                 <div className="pb-16">

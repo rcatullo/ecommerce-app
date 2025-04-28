@@ -18,7 +18,7 @@ const ProductCard: React.FC<Product> = (p) => {
         api.get<User | null>(`/products/users/${p.id}`)
            .then(res => setUser(res.data))
            .catch(console.error);
-    }, []);
+    }, [p.id]);
 
     return(
         <div>

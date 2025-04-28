@@ -1,8 +1,24 @@
+/**
+ * pages/signup.tsx
+ *
+ * SignupPage component for the Treesail/Thrift at Stanford application.
+ * Provides a registration form for new users, including email, username, password,
+ * and an option to register as a seller. Handles registration, error/success messaging,
+ * and includes Header and Footer components.
+ */
+
 import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
 
+/**
+ * SignupPage Component
+ *
+ * Renders a signup form and manages registration state.
+ * Allows users to create an account and optionally register as a seller.
+ */
 const SignupPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -101,10 +117,10 @@ const SignupPage: React.FC = () => {
                 </div>
           </form>
           <p className="mt-6 text-center text-gray-600 dark:text-gray-300">
-            Already have an account?{' '}
-            <a href="/login" className="text-black font-medium hover:underline">
+            Already have an account?
+            <Link href="/login" className="text-black font-medium hover:underline">
               Log in
-            </a>
+            </Link>
           </p>
           </div>
         </div>

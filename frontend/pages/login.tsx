@@ -1,9 +1,25 @@
+/**
+ * pages/login.tsx
+ *
+ * LoginPage component for the Treesail/Thrift at Stanford application.
+ * Provides a login form for users to authenticate with their Stanford email and password.
+ * Handles authentication, error/success messaging, and redirects on successful login.
+ * Includes Header and Footer components.
+ */
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
 
+/**
+ * LoginPage Component
+ *
+ * Renders a login form and manages authentication state.
+ * Redirects to the homepage on successful login.
+ */
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -82,8 +98,8 @@ const LoginPage: React.FC = () => {
           { /* Need to implement password recovery */}
           <div className="mt-6 text-center">
             <p className="text-gray-600 mt-4">
-              Don't have an account?{' '}
-              <a href="/signup" className="font-medium hover:underline">Sign up here</a>
+              Don't have an account?
+              <Link href="/signup" className="font-medium hover:underline">Sign up here</Link>
             </p>
           </div>
           </div>

@@ -16,10 +16,20 @@ const VerifyEmailPage: React.FC = () => {
         const res = await api.get(`/auth/verify-email?token=${token}`);
         setStatus('success');
         setMessage(res.data.message || 'Email verified successfully. You can now log in.');
-      } catch (err: any) {
+      } catch (err: unknown) {
         setStatus('error');
-        if (err.response && err.response.data && err.response.data.error) {
-          setMessage(err.response.data.error);
+        if (
+          typeof err === 'object' &&
+          err !== null &&
+          'response' in err &&
+          typeof (err as any).response === 'object' &&
+          (err as any).response !== null &&
+          'data' in (err as any).response &&
+          typeof (err as any).response.data === 'object' &&
+          (err as any).response.data !== null &&
+          'error' in (err as any).response.data
+        ) {
+          setMessage((err as any).response.data.error);
         } else {
           setMessage('Verification failed. The link may be invalid or expired.');
         }

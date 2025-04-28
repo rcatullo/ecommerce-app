@@ -8,7 +8,7 @@ interface NewListingProps extends User {
 }
 
 const NewListing: React.FC<NewListingProps> = (props) => {
-    const { onListingCreated, ...user } = props;
+    const { onListingCreated } = props;
     const [expanded, setExpanded] = useState(false);
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
@@ -39,12 +39,24 @@ const NewListing: React.FC<NewListingProps> = (props) => {
             setPrice('');
             setDescription('');
             if (onListingCreated) onListingCreated();
-        } catch (err: any) {
-            setError(
-                err?.response?.data?.message ||
-                err?.message ||
-                'Failed to create listing. Please try again.'
-            );
+        } catch (err: unknown) {
+            let errorMsg = 'Failed to create listing. Please try again.';
+            if (
+                typeof err === 'object' &&
+                err !== null &&
+                'response' in err &&
+                typeof (err as any).response === 'object' &&
+                (err as any).response !== null &&
+                'data' in (err as any).response &&
+                typeof (err as any).response.data === 'object' &&
+                (err as any).response.data !== null &&
+                'message' in (err as any).response.data
+            ) {
+                errorMsg = (err as any).response.data.message;
+            } else if (err instanceof Error && err.message) {
+                errorMsg = err.message;
+            }
+            setError(errorMsg);
         }
     };
 

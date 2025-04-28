@@ -1,9 +1,26 @@
+/**
+ * InfiniteMovingCards.tsx
+ * 
+ * This component renders a horizontally scrolling, infinitely-looping list of product cards.
+ * The scroll direction, speed, and pause-on-hover behavior are configurable.
+ * Used for visually engaging displays of product listings.
+ */
+
 "use client";
 
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import { Product } from "../Product";
 
+/**
+ * InfiniteMovingCards Component
+ * 
+ * @param items - Array of Product objects to display in the scroller.
+ * @param direction - Scroll direction, either "left" or "right". Defaults to "left".
+ * @param speed - Animation speed: "fast", "normal", or "slow". Defaults to "fast".
+ * @param pauseOnHover - Whether to pause animation on hover. Defaults to true.
+ * @param className - Additional CSS classes for the container.
+ */
 export const InfiniteMovingCards = ({
   items,
   direction = "left",
@@ -22,7 +39,7 @@ export const InfiniteMovingCards = ({
 
   useEffect(() => {
     addAnimation();
-  }, [items]);
+  }, [items, addAnimation]);
   const [start, setStart] = useState(false);
   function addAnimation() {
     if (containerRef.current && scrollerRef.current) {
@@ -83,7 +100,7 @@ export const InfiniteMovingCards = ({
           pauseOnHover && "hover:[animation-play-state:paused]",
         )}
       >
-        {items.map((item, idx) => (
+        {items.map((item) => (
           <li
             className="relative w-[350px] max-w-full shrink-0 rounded-2xl border hover:scale-105 transition-transform duration-700 ease-in-out border-zinc-800 bg-[linear-gradient(135deg,#fff1be,#b060ff)] px-8 py-6 md:w-[350px]"
             key={item.name}
