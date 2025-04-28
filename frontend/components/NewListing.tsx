@@ -3,7 +3,12 @@ import Image from 'next/image';
 import { User } from './User';
 import api from '@/services/api';
 
-const NewListing: React.FC<User> = (user) => {
+interface NewListingProps extends User {
+  onListingCreated?: () => void;
+}
+
+const NewListing: React.FC<NewListingProps> = (props) => {
+    const { onListingCreated, ...user } = props;
     const [expanded, setExpanded] = useState(false);
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
@@ -33,6 +38,7 @@ const NewListing: React.FC<User> = (user) => {
             setName('');
             setPrice('');
             setDescription('');
+            if (onListingCreated) onListingCreated();
         } catch (err: any) {
             setError(
                 err?.response?.data?.message ||

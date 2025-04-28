@@ -12,16 +12,12 @@ export interface User {
     is_verified: boolean;
 }
 
-const UserListings: React.FC<User> = (user) => {
-    const [products, setProducts] = useState<Product[]>();
+interface UserListingsProps {
+  products: Product[];
+}
 
-    useEffect(() => {
-        api.get<Product[]>(`/users/${user.id}`)
-           .then(res => setProducts(res.data))
-           .catch(console.error);
-      }, []);
-    
-      return(<>{products && products.map(p => (<ProductCard key={p.id} {...p} />))}</>);
-};
+const UserListings: React.FC<UserListingsProps> = ({ products }) => (
+  <>{products && products.map(p => (<ProductCard key={p.id} {...p} />))}</>
+);
 
 export default UserListings;

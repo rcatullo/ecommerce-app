@@ -6,13 +6,16 @@ import UserListings, { User } from '../components/User';
 import { useRouter } from 'next/router';
 import { useAuth } from '../context/AuthContext';
 import NewListing from '../components/NewListing';
+import { Product } from '../components/Product'; // Import Product type
 
 const UserPage: React.FC = () => {
     const { query } = useRouter();
     const { isPageOwner, authUser } = useAuth();
     const [user, setUser] = useState<User | null>(null);
     const [owner, setOwner] = useState<boolean>(false);
+    const [products, setProducts] = useState<Product[]>([]);
 
+    // Fetch user info
     useEffect(() => {
       const fetchUser = async () => {
           try {
@@ -26,11 +29,35 @@ const UserPage: React.FC = () => {
       fetchUser();
     }, [query.username]);
 
+    // Fetch products for user
+    const fetchProducts = async (userId: number) => {
+      try {
+        const res = await api.get<Product[]>(`/users/${userId}`);
+        setProducts(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    // Refresh listings when user changes
+    useEffect(() => {
+      if (user?.id) {
+        fetchProducts(user.id);
+      }
+    }, [user]);
+
     useEffect(() => {
       if (typeof query.username === "string" && authUser) {
           setOwner(isPageOwner(query.username));
       }
     }, [query.username, isPageOwner, authUser]);
+
+    // Callback to refresh listings
+    const refreshListings = () => {
+      if (user?.id) {
+        fetchProducts(user.id);
+      }
+    };
 
     if (!user) return null;
 
@@ -45,8 +72,8 @@ const UserPage: React.FC = () => {
             <div className="py-16">
               <h2 className="text-3xl font-bold mb-8 text-center"><span className="font-unifraktur">{user.username}</span></h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {user && <UserListings {...user} />}
-                {user && owner && <NewListing {...user}></NewListing>}
+                {user && <UserListings products={products} />}
+                {user && owner && <NewListing {...user} onListingCreated={refreshListings} />}
               </div>
             </div>
           </main>
