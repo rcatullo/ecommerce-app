@@ -31,10 +31,12 @@ const LoginPage: React.FC = () => {
         <div className='mx-auto max-w-2xl lg:max-w-7xl'>
       <Header />
       <main>
-      <div className="py-16">
+      <div className="py-32">
         <div className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-black text-center mb-4">Welcome Back</h1>
+          <h1 className="text-3xl font-bold text-black text-center mb-4">
+          <span className="font-unifraktur">treesail login</span>
+          </h1>
           <p className="text-center text-gray-600 mb-6">Log in with your SUNet ID</p>
           {success && (
             <div className="mb-4 text-green-600 dark:text-green-300 text-center font-medium">
