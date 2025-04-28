@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { User } from './User';
 import api from '@/services/api';
+import { isAxiosErrMsg } from '@/context/AuthContext';
 
 interface NewListingProps extends User {
   onListingCreated?: () => void;
@@ -13,7 +14,8 @@ const NewListing: React.FC<NewListingProps> = (props) => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
-    const [error, setError] = useState<string | null>(null);
+    const [status, setStatus] = useState<'pending' | 'success' | 'error'>('pending');
+    const [message, setMessage] = useState('');
 
     // Disable scrolling when form is open
     useEffect(() => {
@@ -29,34 +31,24 @@ const NewListing: React.FC<NewListingProps> = (props) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
+        setStatus('pending');
         try {
             const numericPrice = Number(price);
             const data = { name, price: numericPrice, description };
             await api.post(`/users/`, data);
+            setStatus('success')
             setExpanded(false);
             setName('');
             setPrice('');
             setDescription('');
             if (onListingCreated) onListingCreated();
         } catch (err: unknown) {
-            let errorMsg = 'Failed to create listing. Please try again.';
-            if (
-                typeof err === 'object' &&
-                err !== null &&
-                'response' in err &&
-                typeof (err as any).response === 'object' &&
-                (err as any).response !== null &&
-                'data' in (err as any).response &&
-                typeof (err as any).response.data === 'object' &&
-                (err as any).response.data !== null &&
-                'message' in (err as any).response.data
-            ) {
-                errorMsg = (err as any).response.data.message;
-            } else if (err instanceof Error && err.message) {
-                errorMsg = err.message;
-            }
-            setError(errorMsg);
+          setStatus('error');
+          if (isAxiosErrMsg(err)) {
+            setMessage(err.response.data.error);
+          } else {
+            setMessage('Failed to list product.');
+          }
         }
     };
 
@@ -102,9 +94,9 @@ const NewListing: React.FC<NewListingProps> = (props) => {
             </h1>
             <p className="text-center text-gray-600 mb-6">List an item for sale.</p>
             <form onSubmit={handleSubmit}>
-              {error && (
+              {status === "error" && (
                 <div className="mb-4 text-red-600 bg-red-100 rounded p-2 text-center">
-                  {error}
+                  {message}
                 </div>
               )}
               <div className="mb-4">

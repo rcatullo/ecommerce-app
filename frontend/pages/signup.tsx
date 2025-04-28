@@ -47,7 +47,7 @@ const SignupPage: React.FC = () => {
           <h1 className="text-3xl font-bold text-black text-center mb-4">
             <span className="font-unifraktur">signup</span>
           </h1>
-          <p className="text-center text-gray-600 dark:text-gray-300 mb-6">Connect with Stanford's graduating community</p>
+          <p className="text-center text-gray-600 dark:text-gray-300 mb-6">{ "Connect with Stanford's graduating community" }</p>
           {success && (
             <div className="mb-4 text-green-600 dark:text-green-300 text-center font-medium">
               {success}

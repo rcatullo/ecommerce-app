@@ -34,7 +34,9 @@ const Footer: React.FC = () => {
                         Pass your treasures to the saplings.
                     </p>
                 </hgroup>
-                <p className="mx-auto mt-6 max-w-xs text-sm/6 text-gray-500">Make an account to start listing what you can't take with you.</p>
+                <p className="mx-auto mt-6 max-w-xs text-sm/6 text-gray-500">
+                { "Make an account to start listing what you can't take with you." }
+                </p>
                 <div className="mt-6">
                     <Link href="/signup" className="transition-transform ease-in-out duration-500 hover:scale-105 w-full sm:w-auto inline-flex items-center justify-center px-4 py-[calc(--spacing(2)-1px)] rounded-full border border-transparent bg-gray-950 shadow-md text-base font-medium whitespace-nowrap text-white data-disabled:bg-gray-950 data-disabled:opacity-40 data-hover:bg-gray-800">
                         Get started</Link>

@@ -15,6 +15,21 @@ interface AuthContextType {
   isPageOwner(username: string): boolean;
 }
 
+// Type guard for Axios error with response.data.error
+export function isAxiosErrMsg(err: unknown): err is { response: { data: { error: string } } } {
+  return (
+    typeof err === 'object' &&
+    err !== null &&
+    'response' in err &&
+    typeof (err as any).response === 'object' &&
+    (err as any).response !== null &&
+    'data' in (err as any).response &&
+    typeof (err as any).response.data === 'object' &&
+    (err as any).response.data !== null &&
+    'error' in (err as any).response.data
+  );
+}
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
