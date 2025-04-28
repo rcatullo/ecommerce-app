@@ -6,7 +6,7 @@ const Header: React.FC = () => {
   const { authUser, logout } = useAuth();
 
   return (
-    <header className="pt-12 sm:pt-16">
+    <header className="pt-4 sm:pt-8">
       <div className="relative flex justify-between group/row relative isolate pt-[calc(--spacing(2)+1px)] last:pb-[calc(--spacing(2)+1px)]">
         <div className="relative flex gap-6">
           <div className="py-3 group/item relative">
