@@ -144,3 +144,5 @@ dist
 # VS Code
 .vscode/
 settings.json
+.vercel
+.env*.local
