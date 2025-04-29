@@ -1,6 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap");
 @import "tailwindcss";
-
 
 :root {
   --background: #ffffff;
@@ -13,8 +12,9 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
- 
+  --animate-scroll: scroll var(--animation-duration, 40s)
+    var(--animation-direction, forwards) linear infinite;
+
   @keyframes scroll {
     to {
       transform: translate(calc(-50% - 0.5rem));
@@ -23,7 +23,7 @@
 }
 
 @theme {
-    --font-unifraktur: "UnifrakturMaguntia", cursive;
+  --font-unifraktur: "UnifrakturMaguntia", cursive;
 }
 
 @media (prefers-color-scheme: dark) {
