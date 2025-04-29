@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+}
+
+model Product {
+  id        	Int     @id @default(autoincrement())
+  name     		String
+  description   String?
+  price			Int
+  user			User	@relation(fields: [userId], references: [id])
+  userId		Int		@unique @map(name: "user_id")
+  @@map(name: "products")
+}
+
+model User {
+  id            			Int			@id @default(autoincrement())
+  username      			String		@unique
+  passwordHash				String		@map(name: "password_hash")
+  email         			String   	@unique
+  emailVerified				Boolean		@default(false) @map(name: "email_verified")
+  emailVerificationToken	String?		@map(name: "email_verification_token")
+  createdAt     			DateTime  	@default(now()) @map(name: "created_at")
+  updatedAt     			DateTime  	@updatedAt @map(name: "updated_at")
+  isSeller					Boolean		@default(false) @map(name: "is_seller")
+  products					Product[]
+  @@map(name: "users")
+}
